@@ -30,9 +30,11 @@ export default {
     }
   },
   mounted() {
+    // Henter spil fra API
     axios.get('http://13.74.31.101/api/points').then(response => {
       this.games = response.data
       let points = []
+      // Loop gennem mit Array med spil og udregn point, min bonus() bliver kaldt for at check om der er en strike/spare
       this.games.points.forEach((element, i) => {
         let sum = element.reduce((acc, curr) => acc + curr, 0)
         sum = this.bonus(sum, i)
@@ -42,11 +44,10 @@ export default {
           sum += points[i - 1]
           points.push(sum)
         } else {
-          sum += points[i - 1]
           points.push(sum)
         }
       })
-      console.log('Hello')
+
       if (points.length > 10) {
         points.pop()
       }
@@ -57,28 +58,32 @@ export default {
   },
   methods: {
     bonus(sum, i) {
-      // comment
+      // Hele dette segment er udregning af en Strike eller en Spare
+      // Der er checkups om det er en Strike efter en strike for at kunne beregne det korrekte resultat
 
       if (i + 1 < this.games.points.length) {
+        // Strike
         if (this.games.points[i][0] === 10) {
+          // Strike efter en Strike
           if (this.games.points[i + 1][0] === 10) {
             sum += this.games.points[i + 1].reduce((acc, curr) => acc + curr, 0)
+
+            // Strike, Strike, Strike
             if (this.games.points[i + 2]) {
-              if (this.games.points[i + 2][0] === 10) {
-                sum += this.games.points[i + 2][0]
-              } else {
-                sum += this.games.points[i + 2][0]
-              }
+              sum += this.games.points[i + 2][0]
             }
+            //Strike men efterfølgende frame er ikke en strike
           } else {
             sum += this.games.points[i + 1].reduce((acc, curr) => acc + curr, 0)
           }
+          //Spare
         } else if (this.games.points[i + 1] && sum === 10) {
           sum += this.games.points[i + 1][0]
         }
       }
       return sum
     },
+    // Her har jeg mit POST til API'en med resultatet og Token for at checke om resultatet er korrekt
     validateResult() {
       axios
         .post('http://13.74.31.101/api/points', {
