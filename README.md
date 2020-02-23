@@ -1,5 +1,16 @@
 # bowling-task
 
+
+### Projekt Beskrivelse
+
+```
+Jeg har valgt at lave opgaven i et Vue projekt med Axios til at håndtere API.
+
+Logikken til opgaven ligger i views/Home.vue
+
+qwe
+
+```
 ## Project setup
 ```
 npm install
@@ -10,15 +21,4 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

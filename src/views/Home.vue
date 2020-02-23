@@ -46,7 +46,7 @@ export default {
           points.push(sum)
         }
       })
-
+      console.log('Hello')
       if (points.length > 10) {
         points.pop()
       }
